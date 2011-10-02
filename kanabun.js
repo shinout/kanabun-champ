@@ -2,6 +2,7 @@ var Junjo = require('./lib/Junjo/Junjo');
 var mysql  = require('mysql');
 var cl     = require('./lib/Junjo/lib/termcolor').define();
 var dbinfo = require('./config/dbinfo');
+var kana   = require('./lib/kana').define();
 
 const smalls = {
   'あ': 'ぁ', 
@@ -44,7 +45,7 @@ function kanabun(kanas) {
   })
   .post(function(err, results) {
     return results.map(function(v) {
-      return v.keyword;
+      return v.keyword.toHiraganaCase();
     });
   })
   .after('use');
