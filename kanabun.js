@@ -1,10 +1,9 @@
-var kanas = process.argv[2].split('');
 var Junjo = require('./lib/Junjo/Junjo');
 var mysql  = require('mysql');
 var cl     = require('./lib/Junjo/lib/termcolor').define();
 var dbinfo = require('./config/dbinfo');
 
-function main() {
+function kanabun(kanas) {
 
   // MySQL接続情報
   var client = mysql.createClient({
@@ -48,6 +47,22 @@ function main() {
   .out()
   .after('kanaHash', 'keywords');
 
+  $j.catcher = function(e) {
+    console.red(e.stack)
+    this.err = e
+  }
+
+  $j.on('end', function(err, out) {
+    client.end();
+  });
+
+  return (kanas) ? $j.run(kanas) : $j;
+}
+
+function main() {
+  var kanas = process.argv[2].split('');
+  var $j = kanabun();
+
   $j.on('end', function(err, out) {
     out.forEach(function(word) {
       var color = (function() {
@@ -60,9 +75,7 @@ function main() {
       })();
       console[color](word);
     });
-    client.end();
   });
-
 
   $j.run(kanas);
 }
@@ -77,3 +90,5 @@ if (process.argv[1] == __filename) {
     main();
   }
 }
+
+module.exports = kanabun;

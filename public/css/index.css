@@ -1,0 +1,62 @@
+input#input {
+  width: 350px;
+  height: 20px;
+}
+
+#wordsHolder,
+#gameTable
+{
+  float: left;
+}
+
+#gameTable>table {
+  margin: 50px;
+  position: fixed;
+  left: 550px;
+  top : 50px;
+}
+
+#gameTable caption {
+  border-radius: 20px;
+  background-color: #34d;
+  color: white;
+  padding: 4px;
+  text-align : center;
+  margin-bottom : 10px;
+  width: 150px;
+}
+
+#gameTable>table td {
+  border-radius: 3px;
+  background-color: #ffffcc;
+  margin-left: 5px;
+  margin-bottom: 5px;
+  padding: 5px;
+  cursor : pointer;
+}
+
+#gameTable>table td.selected {
+  background-color: #009;
+  color: white;
+}
+
+#wordsHolder {
+  margin-top: 30px;
+}
+
+#wordsHolder>ul {
+  width: 500px;
+}
+
+#wordsHolder>ul>li {
+  float: left;
+  width: 120px;
+  cursor : pointer;
+  font-size : 14px;
+  margin-bottom: 5px;
+}
+
+#wordsHolder>ul>li.selected {
+  background-color: #009;
+  color: white;
+}

@@ -1,0 +1,17 @@
+<table>
+<thead>
+<caption></caption>
+</thead>
+<tbody>
+<% table.forEach(function(tr, k) { %>
+<tr>
+<% tr.forEach(function(td, j) { %>
+<% if (k == 2 && j == 2) { %>
+<td></td>
+<% } %>
+<td id="p${k}_${j}">${td}</td>
+<% }); %>
+</tr>
+<% }); %>
+</tbody>
+</table>
