@@ -3,6 +3,18 @@ var mysql  = require('mysql');
 var cl     = require('./lib/Junjo/lib/termcolor').define();
 var dbinfo = require('./config/dbinfo');
 
+const smalls = {
+  'あ': 'ぁ', 
+  'い': 'ぃ',
+  'う': 'ぅ',
+  'え': 'ぇ',
+  'お': 'ぉ',
+  'や': 'ゃ',
+  'ゆ': 'ゅ',
+  'よ': 'ょ',
+  'つ': 'っ'
+};
+
 function kanabun(kanas) {
 
   // MySQL接続情報
@@ -17,6 +29,7 @@ function kanabun(kanas) {
     var hash = {};
     kanas.forEach(function(k) {
       hash[k] = true;
+      if (smalls[k]) hash[smalls[k]] = true;
     });
     return hash;
   });
@@ -92,3 +105,4 @@ if (process.argv[1] == __filename) {
 }
 
 module.exports = kanabun;
+module.exports.smalls = smalls;

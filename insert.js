@@ -40,10 +40,8 @@ function main() {
       + " `id` INT UNSIGNED NOT NULL AUTO_INCREMENT PRIMARY KEY"
       + ",`keyword` VARCHAR(255) NOT NULL"
       + ",`keyword_hash` VARCHAR(32) NOT NULL"
-      + ",`yomi` VARCHAR(255) NOT NULL"
       + ",`keyword_ngram` TEXT NOT NULL"
-      + ",`yomi_ngram` TEXT NOT NULL"
-      + ",FULLTEXT(`keyword_ngram`, `yomi_ngram`)"
+      + ",FULLTEXT(`keyword_ngram`)"
       + ",UNIQUE(`keyword_hash`)"
       + " ) ENGINE = MyISAM", this.cb);
   }).after('drop');
@@ -52,8 +50,7 @@ function main() {
   // ファイルからwordを取得してinsert
   $j('words', function() {
     var lines = new LS(filename, {trim : true});
-    this.absorb(lines, 'data', function(data, result) {
-      var word = {word: data, yomi: data};
+    this.absorb(lines, 'data', function(word, result) {
       saveWord(word, client);
     });
   })
@@ -69,7 +66,7 @@ function main() {
 
 
 /**
- * @param (object) word : {word: string, yomi: sring}
+ * @param (string) word
  * @param (object) client : mysql client object
  */
 function saveWord(word,client) {
@@ -83,16 +80,14 @@ function saveWord(word,client) {
 
 
   $j('insert', function(word, client) {
-    this.word = word.word;
+    this.word = word;
 
     var sql = 
       'insert into keyword values ('
     + '"0",'
-    + '"'+ s4q(word.word) + '",'
-    + '"'+ s4q(md5(word.word)) + '",'
-    + '"'+ s4q(word.yomi) + '",'
-    + '"'+ s4q(Ngram.to_fulltext(word.word, 2)) + '",'
-    + '"'+ s4q(Ngram.to_fulltext(word.yomi, 2)) + '"'
+    + '"'+ s4q(word) + '",'
+    + '"'+ s4q(md5(word)) + '",'
+    + '"'+ s4q(Ngram.to_fulltext(word, 1)) + '"'
     + ')';
 
     console.yellow(sql);

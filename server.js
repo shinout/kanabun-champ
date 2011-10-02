@@ -9,6 +9,8 @@ var EventSetter  = require('./lib/EventSetter');
 var cl           = require('./lib/Junjo/lib/termcolor').define();
 var kanabun      = require('./kanabun');
 
+const smalls = kanabun.smalls;
+
 /** http hosting **/
 var server = http.createServer(function(req, res) {
   if (staticHoster.host(req, res, true)) return;
@@ -120,6 +122,7 @@ io.sockets.on('connection', function(ioClient) {
           table.forEach(function(tr, k) {
             tr.forEach(function(td, j) {
               hash[td] = [k, j];
+              if (smalls[td]) hash[smalls[td]] = [k, j];
             });
           });
           ioClient.emit('hashOK', hash);
